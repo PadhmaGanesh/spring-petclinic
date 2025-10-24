@@ -1,5 +1,5 @@
 trigger:
-- main
+  - main
 
 pool:
   name: 'Default'
@@ -15,3 +15,10 @@ stages:
              goals: 'package'
              publishJUnitResults: true
              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+         - task: CopyFiles@2
+           inputs:
+             contents: '**'
+             targetFolder: $(Build.ArtifactStagingDirectory)
+         - publish: '$(Build.ArtifactStagingDirectory)/scripts'
+           displayName: 'Publish script'
+           artifact: drop   
